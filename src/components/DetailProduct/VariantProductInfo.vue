@@ -51,17 +51,47 @@
                class="text-xl font-bold text-orange-500 pl-3 -mt-1"
                style="margin-left: 74px;"
             >
-               Rp.{{currencyFormat(resellerPrice)}}
+               Rp.{{ currencyFormat(resellerPrice) }}
             </h1>
          </div>
       </div>
       <div class="bg-gray-200 h-1"></div>
+      <!-- info produk ukuran, warna, stok -->
 
-      <StockContainer
+      <div v-for="(variant, i) in variantInputs" :key="variant.ID">
+         <div class="flex mx-5 my-2">
+            <h1 class="text-base font-bold capitalize">{{ variant.name }}</h1>
+         </div>
+         <div class="flex mt-2 mb-4 mx-5">
+            <select
+               :name="variant.name"
+               v-model="selections[i].itemPossibilities"
+            >
+               <option value="" selected disabled> </option>
+               <option
+                  v-for="value in variant.options"
+                  :value="value.variantOptionID"
+                  :key="value.ID"
+               >
+                  {{ value.name }}
+               </option>
+            </select>
+
+            <!-- <button
+               v-for="option in variant.variant_product_options"
+               :key="option.ID"
+               class="flex-wrap mr-2 pt-1 ext-sm bg-white border-2 border-gray-500 hover:bg-blue-900 hover:text-white hover:border-blue-900 focus:border-0 focus:bg-blue-900 focus:border-blue-900 focus:text-white focus:outline-blue-900 rounded-md py-2 px-2 uppercase "
+            >
+               {{ option.name }}
+            </button> -->
+         </div>
+      </div>
+
+      <!-- <StockContainer
          v-for="inventory in dataProduct.single_product_item.SPIInventories"
          :key="inventory.id"
          :inventory="inventory"
-      />
+      /> -->
       <!-- deskripsi produk -->
       <div class="mx-5 mt-8">
          <h1 class="text-base font-bold capitalize">
@@ -173,6 +203,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import StockContainer from './StockContainer.vue';
 import { currencyFormat } from '../../helpers/stringManipulation';
 import {
@@ -180,9 +211,10 @@ import {
    RESELLER_PRO_PRICE_NAME,
    RETAIL_PRICE_NAME,
 } from '../../helpers/productHelpers';
+import { cloneDeep } from 'lodash';
 
 export default {
-   name: 'SingleProductInfo',
+   name: 'VariantProductInfo',
    props: ['dataProduct', 'user'],
    components: {
       StockContainer,
@@ -190,31 +222,106 @@ export default {
    data() {
       return {
          itemQtyInput: 1,
+
+         selections: [],
       };
+   },
+   created() {
+      const vpVariants = cloneDeep(this.dataProduct.variant_product_variants);
+      this.selections = vpVariants.map((variant) => {
+         return {
+            variantID: variant.ID,
+            itemPossibilities: null,
+         };
+      });
    },
    computed: {
       customerPrice: function() {
-         const result = this.dataProduct.single_product_item.single_product_item_prices.find(
+         if (!this.selectedItemID) return 0;
+         const vpItems = cloneDeep(this.dataProduct.variant_product_items);
+         const vpItem = vpItems.find((item) => item.ID === this.selectedItemID);
+         const result = vpItem.variant_product_item_prices.find(
             (itemPrice) => itemPrice.name === RETAIL_PRICE_NAME
          );
          return result.value;
       },
       resellerPrice: function() {
          let result = 0;
+         if (!this.selectedItemID) return 0;
+
+         const vpItems = cloneDeep(this.dataProduct.variant_product_items);
+         const vpItem = vpItems.find((item) => item.ID === this.selectedItemID);
+
          if (this.user.roleID === 1) {
-            result = this.dataProduct.single_product_item.single_product_item_prices.find(
+            result = vpItem.variant_product_item_prices.find(
                (itemPrice) => itemPrice.name === RESELLER_PRO_PRICE_NAME
             );
          } else if (this.user.roleID === 2) {
-            result = this.dataProduct.single_product_item.single_product_item_prices.find(
+            result = vpItem.variant_product_item_prices.find(
                (itemPrice) => itemPrice.name === RESELLER_EXCLUSIVE_PRICE_NAME
             );
          }
          return result.value;
       },
       profitPrice: function() {
-         return this.customerPrice - this.resellerPrice
-      }
+         return this.customerPrice - this.resellerPrice;
+      },
+      variantInputs: function() {
+         const vpVariants = cloneDeep(
+            this.dataProduct.variant_product_variants
+         );
+
+         const result = [];
+
+         vpVariants.forEach((variant) => {
+            const _variantOptions = [
+               ...new Set(
+                  variant.variant_product_options.map((vpOption) =>
+                     vpOption.name.toLowerCase()
+                  )
+               ),
+            ];
+            const _vpItems = _variantOptions.map((option) => ({
+               name: option,
+               variantOptionID: [],
+            }));
+
+            variant.variant_product_options.forEach((vpOption) => {
+               const index = _vpItems.findIndex(
+                  (optionObj) => optionObj.name === vpOption.name
+               );
+               _vpItems[index].variantOptionID.push(
+                  vpOption.variant_product_item_id
+               );
+            });
+
+            result.push({
+               name: variant.name,
+               ID: variant.ID,
+               options: _vpItems,
+            });
+         });
+
+         return result;
+      },
+      selectedItemID: function() {
+         const _selections = cloneDeep(this.selections);
+         const _selLen = _selections.length;
+         let filtered = [];
+         for (let index = 0; index < _selLen - 1; index++) {
+            if (
+               !_selections[index].itemPossibilities ||
+               !_selections[index + 1].itemPossibilities
+            )
+               break;
+
+            filtered = _selections[index].itemPossibilities.filter((sel) =>
+               _selections[index + 1].itemPossibilities.includes(sel)
+            );
+         }
+
+         return filtered[0];
+      },
    },
    methods: {
       incrementQtyInput() {
@@ -224,6 +331,9 @@ export default {
          if (this.itemQtyInput > 1) {
             this.itemQtyInput--;
          }
+      },
+      getSelectedItem(event) {
+         console.log(event);
       },
       currencyFormat,
    },

@@ -6,7 +6,7 @@
          <!-- Image Product -->
          <ImgProduct />
          <!-- info produk name-->
-         <SingleProductInfo :dataProduct="dataProduct" :user="user"/>
+         <VariantProductInfo :dataProduct="dataProduct" :user="user"/>
          <Footer />
       </DefaultLayout>
    </div>
@@ -21,18 +21,18 @@ import Footer from '@/layout/Footer.vue';
 //components
 import Navbar from '@/components/DetailProduct/Navbar.vue';
 import ImgProduct from '@/components/DetailProduct/ImgProduct.vue';
-import SingleProductInfo from '@/components/DetailProduct/SingleProductInfo.vue';
+import VariantProductInfo from '@/components/DetailProduct/VariantProductInfo.vue';
 import { AuthApiGet } from '../../helpers/httpRequest';
 import { isEmpty } from 'lodash';
 
 export default {
-   name: 'SingleProductDetail',
+   name: 'VariantProductDetail',
    components: {
       DefaultLayout,
       Footer,
       Navbar,
       ImgProduct,
-      SingleProductInfo,
+      VariantProductInfo,
    },
    data() {
       return {
@@ -51,7 +51,7 @@ export default {
          try {
             const params = {
                product_id: this.$route.params.product_id,
-               kind_id: 1,
+               kind_id: 2,
             };
 
             productResp = await AuthApiGet(

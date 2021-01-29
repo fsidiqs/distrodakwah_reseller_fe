@@ -10,7 +10,10 @@ const cart = window.localStorage.getItem("cart")
 const store = new Vuex.Store({
     state: {
         loading: false,
-        user: userLocalStorage ? JSON.parse(userLocalStorage) : null,
+        user: {
+            roleID: 2,
+        },
+        // user: userLocalStorage ? JSON.parse(userLocalStorage) : null,
         //cart
         cart: cart ? JSON.parse(cart) : [],
     },
@@ -27,7 +30,7 @@ const store = new Vuex.Store({
             }
             saveItemToCart(state.cart)
         },
-        
+
     }
 
 })

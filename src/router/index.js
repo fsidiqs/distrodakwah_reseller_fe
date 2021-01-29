@@ -1,8 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Storefront from '../views/CatalogView/Storefront.vue'
+
+
 import AllProduct from '../views/CatalogView/AllProduct.vue'
 import SingleProductDetail from '../views/CatalogView/SingleProductDetail.vue'
+import VariantProductDetail from '../views/CatalogView/VariantProductDetail.vue'
+
 import Cart from '../views/CatalogView/Cart.vue'
 import CheckoutPengiriman from '../views/CatalogView/CheckoutPengiriman.vue'
 import CheckoutPembayaran from '../views/CatalogView/CheckoutPembayaran.vue'
@@ -49,7 +53,7 @@ const routes = [
   {
     path: '/products/variant-product/:product_id',
     name: 'VariantProductDetail',
-    // component: VariantProductDetail
+    component: VariantProductDetail
   },
   {
     path: '/cart',

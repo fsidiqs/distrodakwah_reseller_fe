@@ -16,9 +16,18 @@
          <template v-if="dataProducts.length > 0">
             <!-- <template v-for="product in dataProducts"> -->
             <template v-for="(product, index) in dataProducts">
-               <SingleProductCard :key="index" :product="product" v-if="('single_product_item' in product)"/>
-               <VariantProductCard :key="index" :product="product" v-else-if="('variant_product_items' in product)"/>
-
+               <SingleProductCard
+                  :key="index"
+                  :product="product"
+                  v-if="product.product_kind_id == PRODUCT_KIND_SINGLE_PRODUCT"
+               />
+               <VariantProductCard
+                  :key="index"
+                  :product="product"
+                  v-else-if="
+                     product.product_kind_id == PRODUCT_KIND_VARIANT_PRODUCT
+                  "
+               />
             </template>
          </template>
       </div>
@@ -27,6 +36,10 @@
 
 <script>
 import { AuthApiGet } from '../../helpers/httpRequest';
+import {
+   PRODUCT_KIND_SINGLE_PRODUCT,
+   PRODUCT_KIND_VARIANT_PRODUCT,
+} from '../../helpers/productHelpers';
 import SingleProductCard from '../Products/SingleProductCard.vue';
 import VariantProductCard from '../Products/VariantProductCard.vue';
 
@@ -34,11 +47,13 @@ export default {
    name: 'ProductList',
    components: {
       SingleProductCard,
-      VariantProductCard
+      VariantProductCard,
    },
    data() {
       return {
          dataProducts: [],
+         PRODUCT_KIND_SINGLE_PRODUCT,
+         PRODUCT_KIND_VARIANT_PRODUCT
       };
    },
    async created() {
