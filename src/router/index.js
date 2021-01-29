@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Storefront from '../views/CatalogView/Storefront.vue'
 import AllProduct from '../views/CatalogView/AllProduct.vue'
-import DetailProduct from '../views/CatalogView/DetailProduct.vue'
+import SingleProductDetail from '../views/CatalogView/SingleProductDetail.vue'
 import Cart from '../views/CatalogView/Cart.vue'
 import CheckoutPengiriman from '../views/CatalogView/CheckoutPengiriman.vue'
 import CheckoutPembayaran from '../views/CatalogView/CheckoutPembayaran.vue'
@@ -42,9 +42,14 @@ const routes = [
     component: AllProduct
   },
   {
-    path: '/detailproduct',
-    name: 'DetailProduct',
-    component: DetailProduct
+    path: '/products/single-product/:product_id',
+    name: 'SingleProductDetail',
+    component: SingleProductDetail
+  },
+  {
+    path: '/products/variant-product/:product_id',
+    name: 'VariantProductDetail',
+    // component: VariantProductDetail
   },
   {
     path: '/cart',
@@ -94,12 +99,12 @@ const routes = [
   {
     path: '/setgoals',
     name: 'SetGoals',
-    component: SetGoals 
+    component: SetGoals
   },
   {
     path: '/incomereseller',
     name: 'IncomeReseller',
-    component: IncomeReseller 
+    component: IncomeReseller
   },
   {
     path: '/dzikir',

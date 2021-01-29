@@ -2,7 +2,7 @@
    <div>
       <div class="grid grid-cols-3 mt-4 mx-5">
          <div class="col-span-1 w-64">
-            <h1 class="text-2xl font-bold">{{ product.name }}</h1>
+            <h1 class="text-2xl font-bold">{{ dataProduct.name }}</h1>
          </div>
          <div
             class="col-span-1 w-10"
@@ -54,52 +54,22 @@
          </div>
       </div>
       <div class="bg-gray-200 h-1"></div>
-      <!-- info produk ukuran, warna, stok -->
-      <div class="flex mx-5 my-2">
-         <h1 class="text-base font-bold capitalize">ukuran</h1>
-      </div>
-      <div class="flex mt-2 mb-4 mx-5">
-         <button
-            v-for="(n, i) in 4"
-            :key="i"
-            class="flex-wrap mr-2 pt-1 h-8 w-8 text-sm bg-white border-2 border-gray-500 hover:bg-blue-900 hover:text-white hover:border-blue-900 focus:border-0 focus:bg-blue-900 focus:border-blue-900 focus:text-white focus:outline-blue-900 rounded-md py-2 px-2 uppercase "
-         >
-            s
-         </button>
-      </div>
-      <div class="flex mx-5 my-2">
-         <h1 class="text-base font-bold capitalize">warna</h1>
-      </div>
-      <div class="flex mt-2 mb-4 mx-5">
-         <button
-            v-for="(n, i) in 4"
-            :key="i"
-            class="flex-wrap mr-2 pt-1 pb-1 text-sm bg-white border-2 border-gray-500 hover:bg-blue-900 hover:text-white hover:border-blue-900 focus:border-0 focus:bg-blue-900 focus:border-blue-900 focus:text-white focus:outline-blue-900 rounded-md py-2 px-2 uppercase "
-         >
-            hitam
-         </button>
-      </div>
-      <div class="flex mx-5 my-3">
-         <h1 class="text-base font-bold capitalize">stok</h1>
-      </div>
-      <div class="bg-gray-200 shadow w-32 h-8 pt-1 mx-5 rounded">
-         <h1 class="text-base text-center text-gray-700 font-bold capitalize ">
-            tersedia : 43
-         </h1>
-      </div>
+
+      <StockContainer
+         v-for="inventory in dataProduct.single_product_item.SPIInventories"
+         :key="inventory.id"
+         :inventory="inventory"
+      />
       <!-- deskripsi produk -->
       <div class="mx-5 mt-8">
          <h1 class="text-base font-bold capitalize">
             rincian produk
          </h1>
-         <h1 class="text-sm font-bold capitalize mt-2">
+         <!-- <h1 class="text-sm font-bold capitalize mt-2">
             bahan: fleece cotton
-         </h1>
+         </h1> -->
          <h1 class="text-sm font-light text-gray-700 mt-2">
-            bahan kain dari cotton fleece terasa lebih lembut, karena kain ini
-            merupakan hasil oencampuran dengan cotton. bahan fleece cuttom juga
-            lebih halus apabila dibandingkan dengan jenis fleece lainnya. sablon
-            poliflex
+            {{ dataProduct.description }}
          </h1>
          <div class="bg-white h-10 py-2 mb-8">
             <button
@@ -148,6 +118,7 @@
          <button
             class="bg-white shadow h-10 w-10 flex-item-center justify-center rounded-full focus:outline-none"
             style="padding-left: 9px;"
+            @click="incrementQtyInput"
          >
             <svg
                class="w-5 h-5"
@@ -166,11 +137,12 @@
          <h2
             class="h-10 w-10 text-center justify-center py-2 px-3 mx-1 font-semibold"
          >
-            1
+            {{ itemQtyInput }}
          </h2>
          <button
             class="bg-white shadow h-10 w-10 rounded-full focus:outline-none"
             style="padding-left: 10px;"
+            @click="decrementQtyInput"
          >
             <svg
                class="w-5 h-5"
@@ -199,9 +171,29 @@
 </template>
 
 <script>
+import StockContainer from './StockContainer.vue';
+
 export default {
    name: 'ProductInfo',
-   props: ['product'],
+   props: ['dataProduct'],
+   components: {
+      StockContainer,
+   },
+   data() {
+      return {
+         itemQtyInput: 1,
+      };
+   },
+   methods: {
+      incrementQtyInput() {
+         this.itemQtyInput++;
+      },
+      decrementQtyInput() {
+         if (this.itemQtyInput > 1) {
+            this.itemQtyInput--;
+         }
+      },
+   },
 };
 </script>
 

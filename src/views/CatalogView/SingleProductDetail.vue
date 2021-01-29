@@ -1,12 +1,12 @@
 <template>
-   <div class="bg-gray-200">
+   <div class="bg-gray-200" v-if="!isEmpty(dataProduct)">
       <DefaultLayout>
          <!-- navbar -->
          <Navbar />
          <!-- Image Product -->
          <ImgProduct />
          <!-- info produk name-->
-         <InfoProduct :product="dataProduct"/>
+         <SingleProductInfo :dataProduct="dataProduct" />
          <Footer />
       </DefaultLayout>
    </div>
@@ -19,17 +19,18 @@ import Footer from '@/layout/Footer.vue';
 //components
 import Navbar from '@/components/DetailProduct/Navbar.vue';
 import ImgProduct from '@/components/DetailProduct/ImgProduct.vue';
-import InfoProduct from '@/components/DetailProduct/InfoProduct.vue';
+import SingleProductInfo from '@/components/DetailProduct/SingleProductInfo.vue';
 import { AuthApiGet } from '../../helpers/httpRequest';
+import { isEmpty } from 'lodash';
 
 export default {
-   name: 'DetailProduct',
+   name: 'SingleProductDetail',
    components: {
       DefaultLayout,
       Footer,
       Navbar,
       ImgProduct,
-      InfoProduct,
+      SingleProductInfo,
    },
    data() {
       return {
@@ -37,26 +38,30 @@ export default {
       };
    },
    created() {
-       this.getProduct();
+      this.getProduct();
    },
    methods: {
-       async getProduct() {
-           let productResp;
-            try {
-                const params = {
-                    product_id: this.$route.params.product_id,
-                    kind_id: this.$route.params.kind_id
-                }
-                
-                productResp = await AuthApiGet('/products/get-product-by-id', params)
-            } catch (error) {
-                   console.log(error);
-            return;
-            }
+      async getProduct() {
+         let productResp;
+         try {
+            const params = {
+               product_id: this.$route.params.product_id,
+               kind_id: 1,
+            };
 
-            this.dataProduct = productResp.data.data
-       }
-   }
+            productResp = await AuthApiGet(
+               '/products/get-product-by-id',
+               params
+            );
+         } catch (error) {
+            console.log(error);
+            return;
+         }
+
+         this.dataProduct = productResp.data.data;
+      },
+      isEmpty,
+   },
 };
 </script>
 
