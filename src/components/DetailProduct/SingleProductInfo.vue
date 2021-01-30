@@ -51,7 +51,7 @@
                class="text-xl font-bold text-orange-500 pl-3 -mt-1"
                style="margin-left: 74px;"
             >
-               Rp.{{currencyFormat(resellerPrice)}}
+               Rp.{{ currencyFormat(resellerPrice) }}
             </h1>
          </div>
       </div>
@@ -110,7 +110,7 @@
             <h1
                class="text-sm text-white text-center font-medium border-dashed border-t-2 border-b-2 border-r-2 py-2 px-1 border-white rounded-r"
             >
-               Rp.{{currencyFormat(profitPrice)}}
+               Rp.{{ currencyFormat(profitPrice) }}
             </h1>
          </div>
       </div>
@@ -197,7 +197,7 @@ export default {
          const result = this.dataProduct.single_product_item.single_product_item_prices.find(
             (itemPrice) => itemPrice.name === RETAIL_PRICE_NAME
          );
-         return result.value;
+         return result.value * this.itemQtyInput;
       },
       resellerPrice: function() {
          let result = 0;
@@ -210,11 +210,11 @@ export default {
                (itemPrice) => itemPrice.name === RESELLER_EXCLUSIVE_PRICE_NAME
             );
          }
-         return result.value;
+         return result.value * this.itemQtyInput;
       },
       profitPrice: function() {
-         return this.customerPrice - this.resellerPrice
-      }
+         return this.customerPrice - this.resellerPrice;
+      },
    },
    methods: {
       incrementQtyInput() {

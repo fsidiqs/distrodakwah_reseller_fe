@@ -8,6 +8,7 @@ import SingleProductDetail from '../views/CatalogView/SingleProductDetail.vue'
 import VariantProductDetail from '../views/CatalogView/VariantProductDetail.vue'
 
 import Cart from '../views/CatalogView/Cart.vue'
+
 import CheckoutPengiriman from '../views/CatalogView/CheckoutPengiriman.vue'
 import CheckoutPembayaran from '../views/CatalogView/CheckoutPembayaran.vue'
 import CheckoutKonfirmasi from '../views/CatalogView/CheckoutKonfirmasi.vue'

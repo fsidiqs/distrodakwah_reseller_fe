@@ -87,11 +87,11 @@
          </div>
       </div>
 
-      <!-- <StockContainer
-         v-for="inventory in dataProduct.single_product_item.SPIInventories"
+      <StockContainer
+         v-for="inventory in selectedVPItemInventories"
          :key="inventory.id"
          :inventory="inventory"
-      /> -->
+      />
       <!-- deskripsi produk -->
       <div class="mx-5 mt-8">
          <h1 class="text-base font-bold capitalize">
@@ -140,7 +140,7 @@
             <h1
                class="text-sm text-white text-center font-medium border-dashed border-t-2 border-b-2 border-r-2 py-2 px-1 border-white rounded-r"
             >
-               Rp.{{currencyFormat(profitPrice)}}
+               Rp.{{ currencyFormat(profitPrice) }}
             </h1>
          </div>
       </div>
@@ -203,7 +203,7 @@
 </template>
 
 <script>
-/* eslint-disable */
+
 import StockContainer from './StockContainer.vue';
 import { currencyFormat } from '../../helpers/stringManipulation';
 import {
@@ -243,7 +243,7 @@ export default {
          const result = vpItem.variant_product_item_prices.find(
             (itemPrice) => itemPrice.name === RETAIL_PRICE_NAME
          );
-         return result.value;
+         return result.value * this.itemQtyInput;
       },
       resellerPrice: function() {
          let result = 0;
@@ -261,7 +261,7 @@ export default {
                (itemPrice) => itemPrice.name === RESELLER_EXCLUSIVE_PRICE_NAME
             );
          }
-         return result.value;
+         return result.value * this.itemQtyInput;
       },
       profitPrice: function() {
          return this.customerPrice - this.resellerPrice;
@@ -320,7 +320,19 @@ export default {
             );
          }
 
-         return filtered[0];
+         return filtered[0] ? filtered[0] : null;
+      },
+      selectedVariantProductItem: function() {
+         return this.selectedItemID
+            ? this.dataProduct.variant_product_items.find(
+                 (vpItem) => vpItem.ID === this.selectedItemID
+              )
+            : null;
+      },
+      selectedVPItemInventories: function() {
+         return this.selectedVariantProductItem
+            ? this.selectedVariantProductItem.variant_product_item_inventories
+            : null;
       },
    },
    methods: {

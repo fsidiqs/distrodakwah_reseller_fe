@@ -2,7 +2,7 @@
    <div>
       <div class="flex mx-5 mt-5 mb-3">
          <div class="w-1/2">
-            <h1 class="text-base font-medium capitalize">produk terlaris</h1>
+            <h1 class="text-base font-medium capitalize">produk</h1>
          </div>
          <div class="w-1/2">
             <h1

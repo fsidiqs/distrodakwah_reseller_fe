@@ -4,19 +4,19 @@
          <!-- Top Navigation -->
          <Navbar />
          <!-- Pengahasilan Reseller -->
-         <PenghasilanReseller />
+         <!-- <PenghasilanReseller /> -->
          <!-- dompet, donasi, dzikir, hadiah -->
-         <OptionD3H />
+         <!-- <OptionD3H /> -->
          <!-- slider -->
-         <Slider />
+         <!-- <Slider /> -->
          <!-- category product -->
-         <CategoryProduct />
+         <!-- <CategoryProduct /> -->
          <!-- Flash Sale -->
-         <FlashSale />
+         <!-- <FlashSale /> -->
          <!-- produk terlaris -->
          <ProductList />
          <!-- berita -->
-         <News />
+         <!-- <News /> -->
          <Footer />
       </DefaultLayout>
    </div>
@@ -29,13 +29,13 @@ import Footer from '@/layout/Footer.vue';
 
 //components
 import Navbar from '@/components/storefront/Navbar.vue';
-import PenghasilanReseller from '@/components/storefront/PenghasilanReseller.vue';
-import OptionD3H from '@/components/storefront/OptionD3H.vue';
-import Slider from '@/components/storefront/Slider.vue';
-import CategoryProduct from '@/components/storefront/CategoryProduct.vue';
+// import PenghasilanReseller from '@/components/storefront/PenghasilanReseller.vue';
+// import OptionD3H from '@/components/storefront/OptionD3H.vue';
+// import Slider from '@/components/storefront/Slider.vue';
+// import CategoryProduct from '@/components/storefront/CategoryProduct.vue';
 import ProductList from '@/components/storefront/ProductList.vue';
-import News from '@/components/storefront/News.vue';
-import FlashSale from '@/components/storefront/FlashSale.vue';
+// import News from '@/components/storefront/News.vue';
+// import FlashSale from '@/components/storefront/FlashSale.vue';
 
 export default {
    name: 'Storefront',
@@ -43,13 +43,13 @@ export default {
       DefaultLayout,
       Footer,
       Navbar,
-      PenghasilanReseller,
-      OptionD3H,
-      Slider,
-      CategoryProduct,
+      // PenghasilanReseller,
+      // OptionD3H,
+      // Slider,
+      // CategoryProduct,
       ProductList,
-      News,
-      FlashSale,
+      // News,
+      // FlashSale,
    },
 };
 </script>

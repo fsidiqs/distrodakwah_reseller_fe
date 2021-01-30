@@ -15,7 +15,7 @@ const store = new Vuex.Store({
         },
         // user: userLocalStorage ? JSON.parse(userLocalStorage) : null,
         //cart
-        cart: cart ? JSON.parse(cart) : [],
+        cart: cart ? JSON.parse(cart) : [{ productKindID: 1, itemID: 1, qty: 2 }],
     },
     mutations: {
         setLoading(state, payload) {

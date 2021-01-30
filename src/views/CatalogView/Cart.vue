@@ -1,13 +1,13 @@
 <template>
-    <div class="bg-gray-100">
-        <DefaultLayout>
-            <!-- navbar -->
-            <Navbar />
-            <!-- detail cart -->
-            <DetailCart />
-            <Footer />
-        </DefaultLayout>
-    </div>
+   <div class="bg-gray-100">
+      <DefaultLayout>
+         <!-- navbar -->
+         <Navbar />
+         <!-- detail cart -->
+         <DetailCart />
+         <Footer />
+      </DefaultLayout>
+   </div>
 </template>
 
 <script>
@@ -20,15 +20,13 @@ import Navbar from '@/components/cart/Navbar.vue';
 import DetailCart from '@/components/cart/DetailCart.vue';
 
 export default {
-    name: 'Cart',
-    components: { 
-                    DefaultLayout, 
-                    Footer,
-                    Navbar,
-                    DetailCart 
-                }
-}
+   name: 'Cart',
+   components: {
+      DefaultLayout,
+      Footer,
+      Navbar,
+      DetailCart,
+   },
+};
 </script>
-<style scoped>
-
-</style>
+<style scoped></style>
